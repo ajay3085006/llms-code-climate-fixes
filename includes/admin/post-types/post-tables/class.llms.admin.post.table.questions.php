@@ -41,13 +41,13 @@ class LLMS_Admin_Post_Table_Questions {
 		//checkbox
 		$lessont_obj = new LLMS_Admin_Post_Table_Lessons();
 		$q_columns = $lessont_obj->add_columns();
-		unset($q_columns['prereq']);
-		unset($q_columns['date']);
+		unset( $q_columns['prereq'] );
+		unset( $q_columns['date'] );
 		//lesson
 		$q_columns['lesson'] = __( 'lesson', 'lifterlms' );
 		//quiz
 		$q_columns['quiz'] = __( 'quiz', 'lifterlms' );
-		$q_columns['date'] = __( 'Date', 'lifterlms' );		
+		$q_columns['date'] = __( 'Date', 'lifterlms' );
 		return $q_columns;
 	}
 
@@ -204,7 +204,7 @@ class LLMS_Admin_Post_Table_Questions {
 			//date filter
 			$quizze_obj = new LLMS_Admin_Post_Table_Quizzes();
 			$quizze_obj->date_filter( $post_type );
-	}	
+	}
 	/**
 	 * Get posts
 	 *
