@@ -89,7 +89,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 					}
 				}
 			break;
-		} 
+		}
 	}
 	/**
 	 * Add  filters
