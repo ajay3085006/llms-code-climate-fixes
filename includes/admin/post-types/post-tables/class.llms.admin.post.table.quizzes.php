@@ -101,7 +101,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 
 		//only add filter to post type you want
 		if ( 'llms_quiz' !== $post_type ) { return; }
-		$selected_course_id =  sanitize_text_field( $_GET['filter_course_id'] );
+		$selected_course_id = sanitize_text_field( $_GET['filter_course_id'] );
 		?>
 			<select name="filter_course_id" id="filter_course_id">
 				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
@@ -137,27 +137,27 @@ class LLMS_Admin_Post_Table_Quizzes {
 			</select>
 			<?php
 			//date filter
-			$this->date_filter();
+			$this->date_filter( $post_type );
 	}
 	/**
-	 * date filter 
+	 * date filter
 	 */
-	 public function date_filter() {
-		 global $wpdb ,$wp_locale;
-			$extra_checks = "AND post_status != 'auto-draft'";
-			$months = $wpdb->get_results( $wpdb->prepare( "
-				SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
-				FROM $wpdb->posts
-				WHERE post_type = %s
-				$extra_checks
-				ORDER BY post_date DESC
-			", $post_type ) );
+	public function date_filter( $post_type ) {
+		global $wpdb ,$wp_locale;
+		$extra_checks = "AND post_status != 'auto-draft'";
+		$months = $wpdb->get_results( $wpdb->prepare( "
+			SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
+			FROM $wpdb->posts
+			WHERE post_type = %s
+			$extra_checks
+			ORDER BY post_date DESC
+		", $post_type ) );
 
-			$month_count = count( $months );
-			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) ) {
-				return;
-			}
-			$m_llms = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
+		$month_count = count( $months );
+		if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) ) {
+			return;
+		}
+		$m_llms = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 			?>
 					<label for="filter-by-date" class="screen-reader-text"><?php _e( 'Filter by date', 'lifterlms' ); ?></label>
 					<select name="m" id="filter-by-date">
@@ -178,7 +178,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 			?>
 					</select>
 			<?php
-	 }
+	}
 	/**
 	 * Get posts
 	 *
