@@ -315,17 +315,14 @@ class Llms_Question_Table_Helper {
 				}
 			}
 			if ( $l_id ) {
-
 				//set query var these quizes will show
 				return $questions_ids[0];
 			}
 			if ( $l_id == 0 ) {
-
 				//set query var these quizes will show
 				return array( 0 );
 			}
 		} else {
-
 			//if no lesson on course
 			//set to no quiz found
 			return array( 0 );
