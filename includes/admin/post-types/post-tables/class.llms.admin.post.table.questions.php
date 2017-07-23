@@ -258,9 +258,9 @@ class LLMS_Admin_Post_Table_Questions {
 				}
 			}
 			
-			
-			$return_from_parse = $this->parse_filter( $quiz_ids );
-			$query->query_vars['post__in'] = $return_from_parse;
+			$helper_class = new llms_question_table_helper();
+			$parse_data = $helper_class->parse_filter( $quiz_ids );
+			$query->query_vars['post__in'] = $parse_data;
 		}
 	}
 
@@ -317,18 +317,18 @@ class llms_question_table_helper {
 				if ( $l_id ) {
 
 					//set query var these quizes will show
-					$query->query_vars['post__in'] = $questions_ids[0];
+					return $questions_ids[0];
 				}
 				if ( $l_id == 0 ) {
 
 					//set query var these quizes will show
-					$query->query_vars['post__in'] = array( 0 );
+					return array( 0 );
 				}
 			} else {
 
 				//if no lesson on course
 				//set to no quiz found
-				$query->query_vars['post__in'] = array( 0 );
+				return array( 0 );
 			}
 		return array( 0 );
 	}
