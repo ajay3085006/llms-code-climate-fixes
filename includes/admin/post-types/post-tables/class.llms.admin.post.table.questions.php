@@ -237,10 +237,8 @@ class LLMS_Admin_Post_Table_Questions {
 		global $pagenow;
 		$type = $_GET['post_type'];
 		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '' ) {
-			$selected_course_id = sanitize_text_field( $_GET['filter_course_id'] );
-			$selected_lesson_id = sanitize_text_field( $_GET['filter_lesson_id'] );
-			//get all lessons of course
-			$lesson	= new LLMS_Lesson( $selected_lesson_id );
+			$selected_course_id = $_GET['filter_course_id'];
+			$selected_lesson_id = $_GET['filter_lesson_id'];			
 		} else {
 			$all_less = $this->get_posts( 'lesson' );
 			if ( $selected_lesson_id ) {
@@ -302,7 +300,7 @@ class Llms_Question_Table_Helper {
 				$q_questionsn = get_post_meta( $single_q_id, '_llms_questions', true );
 				$questions_ids[] = wp_list_pluck( $q_questionsn, 'id' );
 			}
-			$l_id = 'novalue';			
+			$l_id = 'novalue';
 			if ( ! empty( $questions_ids ) ) {
 				if ( is_array( $questions_ids[0] ) ) {
 					$l_id = implode( ',',$questions_ids[0] );
