@@ -37,16 +37,14 @@ class LLMS_Admin_Post_Table_Questions {
 	 * @since    3.9.6
 	 * @version  3.9.6
 	 */
-	public function add_columns( $columns ) {
-		$columns = array(
-			'cb' => '<input type="checkbox" />',
-			'title' => __( 'Lesson Title', 'lifterlms' ),
-			'course' => __( 'Course', 'lifterlms' ),
-		'lesson' => __( 'Lesson', 'lifterlms' ),
-			'quiz' => __( 'Quiz', 'lifterlms' ),
-			'date' => __( 'Date', 'lifterlms' ),
-		);
-		return $columns;
+	public function add_columns( $q_columns ) {
+		$q_columns['cb'] = '<input type="checkbox" />';
+		$q_columns['title'] = __( 'Lesson Title', 'lifterlms' );
+		$q_columns['course'] = __( 'Course', 'lifterlms' );
+		$q_columns['lesson'] = __( 'lesson', 'lifterlms' );
+		$q_columns['quiz'] = __( 'quiz', 'lifterlms' );
+		$q_columns['date'] = __( 'Date', 'lifterlms' );
+		return $q_columns;
 	}
 
 	/**
@@ -109,7 +107,7 @@ class LLMS_Admin_Post_Table_Questions {
 					printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->quiz_p_id ) );
 				}
 			break;
-		}// End switch().
+		}
 	}
 
 	/**
@@ -210,21 +208,23 @@ class LLMS_Admin_Post_Table_Questions {
 				ORDER BY post_date DESC
 			", $post_type ) );
 			$month_count = count( $months );
-			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
-			return;
-			$m = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
+			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) ){
+				 return;
+			}
+			$m_quest = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 			?>
 					<label for="filter-by-date" class="screen-reader-text"><?php _e( 'Filter by date', 'lifterlms' ); ?></label>
 					<select name="m" id="filter-by-date">
-					<option <?php selected( $m, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
+					<option <?php selected( $m_quest, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
 			<?php
 			foreach ( $months as $arc_row ) {
-				if ( 0 == $arc_row->year )
-				continue;
+				if ( 0 == $arc_row->year ){
+					 continue;
+				}
 				$month = zeroise( $arc_row->month, 2 );
 				$year = $arc_row->year;
 				printf( "<option %s value='%s'>%s</option>\n",
-					selected( $m, $year . $month, false ),
+					selected( $m_quest, $year . $month, false ),
 					esc_attr( $arc_row->year . $month ),
 					sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
 				);
@@ -298,7 +298,7 @@ class LLMS_Admin_Post_Table_Questions {
 				}
 
 				//get questions of quiz
-				$q = array();
+				$q_questionsn = array();
 				$questions_ids = array();
 
 				//set seleted quiz
@@ -306,8 +306,8 @@ class LLMS_Admin_Post_Table_Questions {
 					$quiz_ids = array( $selected_quiz_id );
 				}
 				foreach ( $quiz_ids as $single_q_id ) {
-					$q = get_post_meta( $single_q_id, '_llms_questions', true );
-					$questions_ids[] = wp_list_pluck( $q, 'id' );
+					$q_questionsn = get_post_meta( $single_q_id, '_llms_questions', true );
+					$questions_ids[] = wp_list_pluck( $q_questionsn, 'id' );
 				}
 				$l_id = 'novalue';
 				if ( is_array( $quiz_ids ) ) {
@@ -332,8 +332,8 @@ class LLMS_Admin_Post_Table_Questions {
 				//if no lesson on course
 				//set to no quiz found
 				$query->query_vars['post__in'] = array( 0 );
-			}// End if().
-		}// End if().
+			}
+		}
 	}
 
 	/**
