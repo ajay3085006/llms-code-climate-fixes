@@ -286,8 +286,8 @@ class LLMS_Admin_Post_Table_Quizzes {
 	 * @return empty array | months array 
 	 * @Since 3.9.6
 	 */
-	public function default_date_filter( $months, $post_type ) {
-		if( $post_type=='llms_quiz' ) {
+	public function default_date_filter( $months, $post_type ){
+		if($post_type == 'llms_quiz'){
 			return array();
 		}
 		return $months;
