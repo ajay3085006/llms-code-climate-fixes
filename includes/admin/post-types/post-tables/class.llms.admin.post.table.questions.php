@@ -18,7 +18,7 @@ class LLMS_Admin_Post_Table_Questions {
 	 * @version  3.9.6
 	 */
 	public function __construct() {
-		add_filter( 'manage_llms_question_posts_columns', array( $this, 'add_columns' ), 10, 1 );
+		add_filter( 'manage_llms_question_posts_columns', array( $this, 'add_questions_columns' ), 10, 1 );
 		add_action( 'manage_llms_question_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
 		//add course filter
 		add_action( 'restrict_manage_posts', array( $this, 'filters' ), 10 );
@@ -37,7 +37,7 @@ class LLMS_Admin_Post_Table_Questions {
 	 * @since    3.9.6
 	 * @version  3.9.6
 	 */
-	public function add_columns( $q_columns ) {
+	public function add_questions_columns( $q_columns ) {
 		$q_columns['cb'] = '<input type="checkbox" />';
 		$q_columns['title'] = __( 'Lesson Title', 'lifterlms' );
 		$q_columns['course'] = __( 'Course', 'lifterlms' );
@@ -208,7 +208,7 @@ class LLMS_Admin_Post_Table_Questions {
 				ORDER BY post_date DESC
 			", $post_type ) );
 			$month_count = count( $months );
-			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) ){
+			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) ) {
 				 return;
 			}
 			$m_quest = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
@@ -218,8 +218,8 @@ class LLMS_Admin_Post_Table_Questions {
 					<option <?php selected( $m_quest, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
 			<?php
 			foreach ( $months as $arc_row ) {
-				if ( 0 == $arc_row->year ){
-					 continue;
+				if ( 0 == $arc_row->year ) {
+					  continue; 
 				}
 				$month = zeroise( $arc_row->month, 2 );
 				$year = $arc_row->year;
