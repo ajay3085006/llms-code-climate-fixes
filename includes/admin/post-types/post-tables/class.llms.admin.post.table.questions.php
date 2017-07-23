@@ -239,7 +239,7 @@ class LLMS_Admin_Post_Table_Questions {
 		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '' ) {
 			$selected_course_id = sanitize_text_field( $_GET['filter_course_id'] );
 			$selected_lesson_id = sanitize_text_field( $_GET['filter_lesson_id'] );
-			$selected_quiz_id = sanitize_text_field( $_GET['filter_quiz_id'] );
+			
 
 			//get all lessons of course
 			$lesson	= new LLMS_Lesson( $selected_lesson_id );
@@ -257,7 +257,36 @@ class LLMS_Admin_Post_Table_Questions {
 					$quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 				}
 			}
-			if ( ! empty( $quiz_ids ) ) {
+			
+			
+			$return_from_parse = $this->parse_filter( $quiz_ids );
+			$query->query_vars['post__in'] = $return_from_parse;
+		}
+	}
+
+	/**
+	 * Hide default date filter  only on llms_quiz post types
+	 *
+	 * @return empty array | months array
+	 * @Since 3.9.6
+	 */
+	public function default_date_filter( $months, $post_type ) {
+		if ( $post_type == 'llms_question' ) {
+			return array();
+		}
+		return $months;
+	}
+}
+return new LLMS_Admin_Post_Table_Questions();
+//
+class llms_question_table_helper {
+	/*
+	* Get quliz ids values | Reduce Cyclomatic  complexity of filter
+	*/
+	public function parse_filter( $quiz_ids ) {
+		$selected_lesson_id = sanitize_text_field( $_GET['filter_lesson_id'] );
+		$selected_quiz_id = sanitize_text_field( $_GET['filter_quiz_id'] );
+		if ( ! empty( $quiz_ids ) ) {
 				// array unique
 				$quiz_ids = array_unique( $quiz_ids );
 				//remove 0 value array
@@ -301,20 +330,6 @@ class LLMS_Admin_Post_Table_Questions {
 				//set to no quiz found
 				$query->query_vars['post__in'] = array( 0 );
 			}
-		}
-	}
-
-	/**
-	 * Hide default date filter  only on llms_quiz post types
-	 *
-	 * @return empty array | months array
-	 * @Since 3.9.6
-	 */
-	public function default_date_filter( $months, $post_type ) {
-		if ( $post_type == 'llms_question' ) {
-			return array();
-		}
-		return $months;
+		return array( 0 );
 	}
 }
-return new LLMS_Admin_Post_Table_Questions();
