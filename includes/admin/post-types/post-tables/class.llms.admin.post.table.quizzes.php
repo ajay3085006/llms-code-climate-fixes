@@ -233,7 +233,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 			$return_from_parse = $this->parse_filter($quiz_ids);
 			$query->query_vars['post__in'] = $return_from_parse;
 			
-		}// End if().
+		}
 	}
 	/*
 	* Get quliz ids values | Reduce Cyclomatic  complexity of filter
