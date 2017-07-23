@@ -82,20 +82,19 @@ class LLMS_Admin_Post_Table_Quizzes {
 			break;
 
 			case 'lesson' :
-				foreach ( $all_less  as $lesson_id ) {
-					$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
-					$quiz_id = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
+				foreach ( $all_less  as $lesson_id_l ) {
+					$quiz_id = absint( get_post_meta( $lesson_id_l, '_llms_assigned_quiz', true ) );
 					if ( $quiz_id == $post_id ) {
 
-						$edit_link = get_edit_post_link( $lesson_id );
+						$edit_link = get_edit_post_link( $lesson_id_l );
 
-						if ( ! empty( $lesson_id ) ) {
-							printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $lesson_id ) );
+						if ( ! empty( $lesson_id_l ) ) {
+							printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $lesson_id_l ) );
 						}
 					}
 				}
 			break;
-		} // End switch()
+		} // End switch().
 	}
 	/**
 	 * Add  filters
@@ -165,7 +164,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 			<?php
 			foreach ( $months as $arc_row ) {
 				if ( 0 == $arc_row->year ) {
-					 continue; 
+					 continue;
 				}
 					$month = zeroise( $arc_row->month, 2 );
 					$year = $arc_row->year;
@@ -257,7 +256,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 				//set to no quiz found
 				$query->query_vars['post__in'] = array( 0 );
 			}
-		}// end of if
+		}//  End if().
 	}
 	/**
 	 * Hide default date filter  only on llms_quiz post types
