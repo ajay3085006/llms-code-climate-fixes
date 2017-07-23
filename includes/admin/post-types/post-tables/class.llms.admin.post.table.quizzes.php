@@ -214,8 +214,8 @@ class LLMS_Admin_Post_Table_Quizzes {
 			$type = $_GET['post_type'];
 		}
 		if ( 'llms_quiz' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '' ) {
-			$selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):'';
-			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
+			$selected_course_id =  sanitize_text_field( $_GET['filter_course_id'];
+			$selected_lesson_id = $_GET['filter_lesson_id'];
 
 			//get all lessons of course
 			$all_less = $this->get_posts( 'lesson' );
@@ -228,52 +228,42 @@ class LLMS_Admin_Post_Table_Quizzes {
 				if ( $selected_course_id == $parent_id ) {
 					$quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 				}
-			}
-			
-			$return_from_parse = $this->parse_filter($quiz_ids);
-			$query->query_vars['post__in'] = $return_from_parse;
-			
+			}			
+			$return_from_parse = $this->parse_filter( $quiz_ids );
+			$query->query_vars['post__in'] = $return_from_parse;			
 		}
 	}
 	/*
 	* Get quliz ids values | Reduce Cyclomatic  complexity of filter
 	*/
-	public function parse_filter($quiz_ids){
-		$selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):'';
-		$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
-
+	public function parse_filter( $quiz_ids ) {
+		
 		if ( ! empty( $quiz_ids ) ) {
 				// array unique
-				$quiz_ids = array_unique( $quiz_ids );
+			$quiz_ids = array_unique( $quiz_ids );
 				//remove 0 value array
-				if ( ! $selected_lesson_id ) {
-					$quiz_ids = array_diff( $quiz_ids, array( 0 ) );
-				}
-				$l_id = 'novalue';
-				if ( is_array( $quiz_ids ) ) {
-					$l_id = implode( ',',$quiz_ids );
-				}
-								
-				if ( $l_id ) {
-
-					//set query var these quizes will show
-					return array( $l_id );
-				}
-				if ( $l_id == 0 ) {
-
-					//set query var these quizes will show
-					return array( 0 );
-				}
-			} else {
-
+			if ( ! $selected_lesson_id ) {
+				$quiz_ids = array_diff( $quiz_ids, array( 0 ) );
+			}
+			$l_id = 'novalue';
+			if ( is_array( $quiz_ids ) ) {
+				$l_id = implode( ',',$quiz_ids );
+			}								
+			if ( $l_id ) {
+				//set query var these quizes will show
+				return array( $l_id );
+			}
+			if ( $l_id == 0 ) {
+				//set query var these quizes will show
+				return array( 0 );
+			}
+		} else {
 				//if no lesson on course
 				//set to no quiz found
 				return array( 0 );
-			}
-			
+		}
 		return array( 0 );
 	}
-	
 	/**
 	 * Hide default date filter  only on llms_quiz post types
 	 *
