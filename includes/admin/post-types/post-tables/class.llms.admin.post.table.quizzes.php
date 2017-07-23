@@ -196,7 +196,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 				ORDER BY ID DESC',
 				$wpdb->posts,
 				'publish',
-				' ' . $post_type . ' '
+				$post_type
 			);
 			return $wpdb->get_col( $query );
 	}
