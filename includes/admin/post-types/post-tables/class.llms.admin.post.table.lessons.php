@@ -39,14 +39,22 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @version  3.2.3
 	 */
 	public function add_columns( $lessons_columns ) {
-		$lessons_columns = array(
+		/* $lessons_columns = array(
 			'cb' => '<input type="checkbox" />',
 			'title' => __( 'Lesson Title', 'lifterlms' ),
 			'section' => __( 'Section', 'lifterlms' ),
 			'course' => __( 'Course', 'lifterlms' ),
 			'prereq' => __( 'Prerequisite', 'lifterlms' ),
 			'date' => __( 'Date', 'lifterlms' ),
-		);
+		); */
+		
+			$lessons_columns['cb'] = '<input type="checkbox" />';
+			$lessons_columns['title'] = __( 'Lesson Title', 'lifterlms' );
+			$lessons_columns['section'] = __( 'Section', 'lifterlms' );
+			$lessons_columns['course'] = __( 'Course', 'lifterlms' );
+			$lessons_columns['prereq'] = __( 'Prerequisite', 'lifterlms' );
+			$lessons_columns['date'] = __( 'Date', 'lifterlms' );
+			
 		return $lessons_columns;
 	}
 
