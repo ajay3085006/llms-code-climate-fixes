@@ -207,7 +207,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 	 * @return Void
 	 * @Since 3.9.6
  */
-	public function query_posts_filter( $query ) {
+	private function query_posts_filter( $query ) {
 		global $pagenow;
 		$type = 'post';
 		if ( isset( $_GET['post_type'] ) ) {
@@ -256,7 +256,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 				//set to no quiz found
 				$query->query_vars['post__in'] = array( 0 );
 			}
-		}//  End if().
+		}// End if().
 	}
 	/**
 	 * Hide default date filter  only on llms_quiz post types
