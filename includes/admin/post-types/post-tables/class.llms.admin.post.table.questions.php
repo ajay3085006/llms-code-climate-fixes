@@ -38,12 +38,12 @@ class LLMS_Admin_Post_Table_Questions {
 	 * @version  3.9.6
 	 */
 	public function add_questions_columns( $q_columns ) {
-		//$q_columns['cb'] = '<input type="checkbox" />';
+		$q_columns['cb'] = '<input type="checkbox" />';
 		//title
 		$q_columns['title'] = __( 'Lesson Title', 'lifterlms' );
-		//course 
+		//course
 		$q_columns['course'] = __( 'Course', 'lifterlms' );
-		//lesson 
+		//lesson
 		$q_columns['lesson'] = __( 'lesson', 'lifterlms' );
 		//quize
 		$q_columns['quiz'] = __( 'quiz', 'lifterlms' );
