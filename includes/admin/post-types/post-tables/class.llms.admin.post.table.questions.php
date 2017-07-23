@@ -127,17 +127,16 @@ class LLMS_Admin_Post_Table_Questions {
 			$selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):'';
 			//get course filter 
 			$this->get_course_filter();
-
 			//get all lessons of course
 			$filter_all_lessons = array();
 			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
 			$all_less = $this->get_posts( 'lesson' );
-			foreach ( $all_less as $lesson_id ) {
-				$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
-				if ( $selected_course_id == $parent_id ) {
-					$filter_all_lessons[] = $lesson_id;
-				}
+		foreach ( $all_less as $lesson_id ) {
+			$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
+			if ( $selected_course_id == $parent_id ) {
+				$filter_all_lessons[] = $lesson_id;
 			}
+		}
 			?>
 			<?php ?>
 			<select name="filter_lesson_id" id="filter_lesson_id">
@@ -184,10 +183,10 @@ class LLMS_Admin_Post_Table_Questions {
 			$quizze_obj->date_filter( $post_type );
 	}
 	/**
-	 * get course filter 
+	 * get course filter
 	 */
-	 public function get_course_filter() {
-		 ?><?php $selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):''; ?>
+	public function get_course_filter() {
+			$selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):''; ?>
 			<select name="filter_course_id" id="filter_course_id">
 				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
 				<?php foreach ( $this->get_posts() as $course_id ) {  ?>
@@ -209,8 +208,8 @@ class LLMS_Admin_Post_Table_Questions {
 				} );
 			} );
 			</script>
-		 <?php 
-	 }
+		<?php
+	}
 	/**
 	 * Get posts
 	 *
