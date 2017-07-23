@@ -267,29 +267,29 @@ class LLMS_Admin_Post_Table_Quizzes {
 				//set query var these quizes will show 
 				$query->query_vars['post__in'] = array( $l_id );
 			}		
-			if( $l_id == 0 ) {
+			if ( $l_id == 0 ) {
 
-				//set query var these quizes will show 
+					//set query var these quizes will show 
+					$query->query_vars['post__in'] = array( 0 );
+				}
+			} else {
+
+				//if no lesson on course 
+				//set to no quiz found
 				$query->query_vars['post__in'] = array( 0 );
 			}
-		} else {
-
-			//if no lesson on course 
-			//set to no quiz found
-			$query->query_vars['post__in'] = array( 0 );
-		}
 		}
 	}
 	/**
-	 * Hide default date filter  only on llms_quiz post types 
+	 * Hide default date filter  only on llms_quiz post types
 	 *
 	 * @return empty array | months array
 	 * @Since 3.9.6
 	 */
 	public function default_date_filter( $months, $post_type ){
-		if($post_type == 'llms_quiz'){
+		if( $post_type == 'llms_quiz') {
 			return array();
-		} 
+		}
 		return $months;
 	}
 }
