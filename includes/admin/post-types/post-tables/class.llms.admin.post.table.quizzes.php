@@ -282,7 +282,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 	}
 	/**
 	 * Hide default date filter  only on llms_quiz post types 
-	 * 
+	 *
 	 * @return empty array | months array
 	 * @Since 3.9.6
 	 */
