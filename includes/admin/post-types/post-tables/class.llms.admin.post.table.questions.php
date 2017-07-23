@@ -38,10 +38,14 @@ class LLMS_Admin_Post_Table_Questions {
 	 * @version  3.9.6
 	 */
 	public function add_questions_columns( $q_columns ) {
-		$q_columns['cb'] = '<input type="checkbox" />';
+		//$q_columns['cb'] = '<input type="checkbox" />';
+		//title
 		$q_columns['title'] = __( 'Lesson Title', 'lifterlms' );
+		//course 
 		$q_columns['course'] = __( 'Course', 'lifterlms' );
+		//lesson 
 		$q_columns['lesson'] = __( 'lesson', 'lifterlms' );
+		//quize
 		$q_columns['quiz'] = __( 'quiz', 'lifterlms' );
 		$q_columns['date'] = __( 'Date', 'lifterlms' );
 		return $q_columns;
@@ -219,7 +223,7 @@ class LLMS_Admin_Post_Table_Questions {
 			<?php
 			foreach ( $months as $arc_row ) {
 				if ( 0 == $arc_row->year ) {
-					  continue; 
+					  continue;
 				}
 				$month = zeroise( $arc_row->month, 2 );
 				$year = $arc_row->year;
