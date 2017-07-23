@@ -214,8 +214,8 @@ class LLMS_Admin_Post_Table_Quizzes {
 			$type = $_GET['post_type'];
 		}
 		if ( 'llms_quiz' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '' ) {
-			$selected_course_id =  sanitize_text_field( $_GET['filter_course_id'];
-			$selected_lesson_id = $_GET['filter_lesson_id'];
+			$selected_course_id = sanitize_text_field( $_GET['filter_course_id']);
+			$selected_lesson_id = sanitize_text_field($_GET['filter_lesson_id']);
 
 			//get all lessons of course
 			$all_less = $this->get_posts( 'lesson' );
@@ -228,16 +228,15 @@ class LLMS_Admin_Post_Table_Quizzes {
 				if ( $selected_course_id == $parent_id ) {
 					$quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 				}
-			}			
+			}
 			$return_from_parse = $this->parse_filter( $quiz_ids );
-			$query->query_vars['post__in'] = $return_from_parse;			
+			$query->query_vars['post__in'] = $return_from_parse;
 		}
 	}
 	/*
 	* Get quliz ids values | Reduce Cyclomatic  complexity of filter
 	*/
 	public function parse_filter( $quiz_ids ) {
-		
 		if ( ! empty( $quiz_ids ) ) {
 				// array unique
 			$quiz_ids = array_unique( $quiz_ids );
@@ -248,7 +247,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 			$l_id = 'novalue';
 			if ( is_array( $quiz_ids ) ) {
 				$l_id = implode( ',',$quiz_ids );
-			}								
+			}							
 			if ( $l_id ) {
 				//set query var these quizes will show
 				return array( $l_id );
