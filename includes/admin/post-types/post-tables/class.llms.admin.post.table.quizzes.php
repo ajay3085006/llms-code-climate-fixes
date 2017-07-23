@@ -142,7 +142,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 	/**
 	 * date filter 
 	 */
-	 public function date_filter(){
+	 public function date_filter() {
 		 global $wpdb ,$wp_locale;
 			$extra_checks = "AND post_status != 'auto-draft'";
 			$months = $wpdb->get_results( $wpdb->prepare( "
@@ -209,7 +209,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 	*/
 	public function query_posts_filter( $query ) {
 		global $pagenow;
-		$type = $_GET['post_type'];		
+		$type = $_GET['post_type'];
 		if ( 'llms_quiz' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '' ) {
 			$selected_course_id = sanitize_text_field( $_GET['filter_course_id'] );
 			$selected_lesson_id = sanitize_text_field( $_GET['filter_lesson_id'] );
