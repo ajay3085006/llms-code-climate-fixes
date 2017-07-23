@@ -124,33 +124,11 @@ class LLMS_Admin_Post_Table_Questions {
 
 		//only add filter to post type you want
 		if ( 'llms_question' !== $post_type ) { return; }
-		?>
-			<?php $selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):''; ?>
-			<select name="filter_course_id" id="filter_course_id">
-				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
-				<?php foreach ( $this->get_posts() as $course_id ) {  ?>
-					<option value="<?php echo $course_id; ?>" <?php selected( $course_id,$selected_course_id ); ?> ><?php echo get_the_title( $course_id ); ?></option>
-				<?php } ?>
-			</select>
-			<script>
-
-			/* auto submit on course ,lesson filter change */
-			jQuery ( document ).ready( function( $ ) {
-				$( '#filter_course_id' ).change( function() {
-					$( '#filter_lesson_id' ).val( '' );
-					$( '#filter_quiz_id' ).val( '' );
-					$( '#posts-filter' ).submit();
-				} );
-				$( '#filter_lesson_id' ).change( function() {
-					$( '#filter_quiz_id' ).val( '' );
-					$( '#posts-filter' ).submit();
-				} );
-			} );
-			</script>
-			<?php
+			$selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):'';
+			//get course filter 
+			$this->get_course_filter();
 
 			//get all lessons of course
-			//TO DO: use clasess :issue arise after submitting using classes
 			$filter_all_lessons = array();
 			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
 			$all_less = $this->get_posts( 'lesson' );
@@ -205,6 +183,34 @@ class LLMS_Admin_Post_Table_Questions {
 			$quizze_obj = new LLMS_Admin_Post_Table_Quizzes();
 			$quizze_obj->date_filter( $post_type );
 	}
+	/**
+	 * get course filter 
+	 */
+	 public function get_course_filter() {
+		 ?><?php $selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):''; ?>
+			<select name="filter_course_id" id="filter_course_id">
+				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
+				<?php foreach ( $this->get_posts() as $course_id ) {  ?>
+					<option value="<?php echo $course_id; ?>" <?php selected( $course_id,$selected_course_id ); ?> ><?php echo get_the_title( $course_id ); ?></option>
+				<?php } ?>
+			</select>
+			<script>
+
+			/* auto submit on course ,lesson filter change */
+			jQuery ( document ).ready( function( $ ) {
+				$( '#filter_course_id' ).change( function() {
+					$( '#filter_lesson_id' ).val( '' );
+					$( '#filter_quiz_id' ).val( '' );
+					$( '#posts-filter' ).submit();
+				} );
+				$( '#filter_lesson_id' ).change( function() {
+					$( '#filter_quiz_id' ).val( '' );
+					$( '#posts-filter' ).submit();
+				} );
+			} );
+			</script>
+		 <?php 
+	 }
 	/**
 	 * Get posts
 	 *
