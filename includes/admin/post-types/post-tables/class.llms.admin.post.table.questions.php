@@ -287,16 +287,11 @@ class Llms_Question_Table_Helper {
 			if ( ! $selected_lesson_id ) {
 				$quiz_ids = array_diff( $quiz_ids, array( 0 ) );
 			}
-
-			//get questions of quiz
-			$q_questionsn = array();
-			$questions_ids = array();
-
 			//set seleted quiz
 			if ( $selected_quiz_id ) {
 				$quiz_ids = array( $selected_quiz_id );
 			}
-			$inside_parse_data = $this->inside_parse_filter($quiz_ids);
+			$inside_parse_data = $this->inside_parse_filter( $quiz_ids );
 			return $inside_parse_data;
 		} else {
 			//if no lesson on course
@@ -305,8 +300,11 @@ class Llms_Question_Table_Helper {
 		}
 		return array( 0 );
 	}
-	//run some logic 
-	public function inside_parse_filter($quiz_ids) {
+	//run some logic
+	public function inside_parse_filter( $quiz_ids ) {
+		//get questions of quiz
+		$q_questionsn = array();
+		$questions_ids = array();
 		foreach ( $quiz_ids as $single_q_id ) {
 			$q_questionsn = get_post_meta( $single_q_id, '_llms_questions', true );
 			$questions_ids[] = wp_list_pluck( $q_questionsn, 'id' );
