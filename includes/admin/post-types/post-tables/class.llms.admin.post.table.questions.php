@@ -40,10 +40,12 @@ class LLMS_Admin_Post_Table_Questions {
 	public function add_questions_columns( $q_columns ) {
 		//checkbox
 		$q_columns['cb'] = '<input type="checkbox" />';
-		//title
-		$q_columns['title'] = __( 'Lesson Title', 'lifterlms' );
+		
 		//course
 		$q_columns['course'] = __( 'Course', 'lifterlms' );
+		
+		//title
+		$q_columns['title'] = __( 'Lesson Title', 'lifterlms' );
 		//lesson
 		$q_columns['lesson'] = __( 'lesson', 'lifterlms' );
 		//quize
@@ -203,48 +205,9 @@ class LLMS_Admin_Post_Table_Questions {
 			</select>
 			<?php
 			//date filter
-			$this->date_filter( $post_type );
-	}
-	/**
-	 * date filter
-	 */
-	public function date_filter( $post_type ) {
-		global $wpdb ,$wp_locale;
-		$extra_checks = "AND post_status != 'auto-draft'";
-		$months = $wpdb->get_results( $wpdb->prepare( "
-			SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
-			FROM $wpdb->posts
-			WHERE post_type = %s
-			$extra_checks
-			ORDER BY post_date DESC
-		", $post_type ) );
-
-		$month_count = count( $months );
-		if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) ) {
-			return;
-		}
-		$m_llms = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
-			?>
-					<label for="filter-by-date" class="screen-reader-text"><?php _e( 'Filter by date', 'lifterlms' ); ?></label>
-					<select name="m" id="filter-by-date">
-						<option <?php selected( $m_llms, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
-			<?php
-			foreach ( $months as $arc_row ) {
-				if ( 0 == $arc_row->year ) {
-					 continue;
-				}
-					$month = zeroise( $arc_row->month, 2 );
-					$year = $arc_row->year;
-					printf( "<option %s value='%s'>%s</option>\n",
-					    selected( $m_llms, $year . $month, false ),
-					    esc_attr( $arc_row->year . $month ),
-					    sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
-				    );
-			}
-			?>
-					</select>
-			<?php
-	}
+			$quizze_obj = new LLMS_Admin_Post_Table_Quizzes();
+			$quizze_obj->date_filter( $post_type );
+	}	
 	/**
 	 * Get posts
 	 *
@@ -275,7 +238,7 @@ class LLMS_Admin_Post_Table_Questions {
 	 */
 	public function query_posts_filter( $query ) {
 		global $pagenow;
-		$type =  $_GET['post_type'];
+		$type = $_GET['post_type'];
 		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '' ) {
 			$selected_course_id = sanitize_text_field( $_GET['filter_course_id'] );
 			$selected_lesson_id = sanitize_text_field( $_GET['filter_lesson_id'] );
