@@ -64,7 +64,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 	 */
 	public function manage_columns( $column, $post_id ) {
 
-	$all_less = $this->get_posts( 'lesson' );
+		$all_less = $this->get_posts( 'lesson' );
 		switch ( $column ) {
 
 			case 'course' :
@@ -75,7 +75,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 						$edit_link = get_edit_post_link( $parent_id );
 
 						if ( ! empty( $parent_id ) ) {
-							printf('<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $parent_id ) );
+							printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $parent_id ) );
 						}
 					}
 				}
@@ -95,7 +95,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 					}
 				}
 			break;
-		} // End switch.
+		} // End switch()
 	}
 	/**
 	 * Add  filters
@@ -126,7 +126,6 @@ class LLMS_Admin_Post_Table_Quizzes {
 			</script>
 			<?php
 			//get all lessons of course
-			
 			$all_less = $this->get_posts( 'lesson' );
 			foreach ( $all_less  as $lesson_id ) {
 				$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
@@ -165,8 +164,8 @@ class LLMS_Admin_Post_Table_Quizzes {
 						<option <?php selected( $m_llms, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
 			<?php
 			foreach ( $months as $arc_row ) {
-				if ( 0 == $arc_row->year ){
-					continue;
+				if ( 0 == $arc_row->year ) {
+					 continue; 
 				}
 					$month = zeroise( $arc_row->month, 2 );
 					$year = $arc_row->year;
@@ -220,7 +219,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
 
 			//get all lessons of course
-			$all_less =	$this->get_posts( 'lesson' );
+			$all_less = $this->get_posts( 'lesson' );
 			if ( $selected_lesson_id ) {
 				//to check if single lesson is set then no need for all lesson
 				$all_less = array( $selected_lesson_id );
@@ -238,7 +237,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 				if ( ! $selected_lesson_id ) {
 					$quiz_ids = array_diff( $quiz_ids, array( 0 ) );
 				}
-				$l_id	=	'novalue';
+				$l_id = 'novalue';
 				if ( is_array( $quiz_ids ) ) {
 					$l_id = implode( ',',$quiz_ids );
 				}
@@ -258,7 +257,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 				//set to no quiz found
 				$query->query_vars['post__in'] = array( 0 );
 			}
-		}
+		}// end of if
 	}
 	/**
 	 * Hide default date filter  only on llms_quiz post types
@@ -266,7 +265,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 	 * @return empty array | months array
 	 * @Since 3.9.6
 	 */
-	public function default_date_filter ( $months, $post_type ) {
+	public function default_date_filter( $months, $post_type ) {
 		if ( $post_type == 'llms_quiz' ) {
 			return array();
 		}
