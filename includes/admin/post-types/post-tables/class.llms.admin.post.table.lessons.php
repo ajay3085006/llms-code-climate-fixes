@@ -38,12 +38,12 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @since    3.2.3
 	 * @version  3.2.3
 	 */
-	public function add_columns( $columns ) {
+	public function add_columns( $lessons_columns ) {
 		$lessons_columns = array(
 			'cb' => '<input type="checkbox" />',
 			'title' => __( 'Lesson Title', 'lifterlms' ),
-			'course' => __( 'Course', 'lifterlms' ),
 			'section' => __( 'Section', 'lifterlms' ),
+			'course' => __( 'Course', 'lifterlms' ),
 			'prereq' => __( 'Prerequisite', 'lifterlms' ),
 			'date' => __( 'Date', 'lifterlms' ),
 		);
@@ -145,7 +145,7 @@ class LLMS_Admin_Post_Table_Lessons {
 			foreach ( $months as $arc_row ) {
 				if ( 0 == $arc_row->year ) {
 					 continue;
-				} 
+				}
 				$month = zeroise( $arc_row->month, 2 );
 				$year = $arc_row->year;
 				printf( "<option %s value='%s'>%s</option>\n",
