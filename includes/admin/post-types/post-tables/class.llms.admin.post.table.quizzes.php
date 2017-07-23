@@ -137,7 +137,13 @@ class LLMS_Admin_Post_Table_Quizzes {
 			</select>
 			<?php
 			//date filter
-			global $wpdb ,$wp_locale;
+			$this->date_filter();
+	}
+	/**
+	 * date filter 
+	 */
+	 public function date_filter(){
+		 global $wpdb ,$wp_locale;
 			$extra_checks = "AND post_status != 'auto-draft'";
 			$months = $wpdb->get_results( $wpdb->prepare( "
 				SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
@@ -172,8 +178,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 			?>
 					</select>
 			<?php
-	}
-
+	 }
 	/**
 	 * Get posts
 	 *
