@@ -258,7 +258,7 @@ class LLMS_Admin_Post_Table_Questions {
 				}
 			}
 			
-			$helper_class = new llms_question_table_helper();
+			$helper_class = new Llms_Question_Table_Helper();
 			$parse_data = $helper_class->parse_filter( $quiz_ids );
 			$query->query_vars['post__in'] = $parse_data;
 		}
@@ -279,7 +279,7 @@ class LLMS_Admin_Post_Table_Questions {
 }
 return new LLMS_Admin_Post_Table_Questions();
 //
-class llms_question_table_helper {
+class Llms_Question_Table_Helper {
 	/*
 	* Get quliz ids values | Reduce Cyclomatic  complexity of filter
 	*/
@@ -287,48 +287,48 @@ class llms_question_table_helper {
 		$selected_lesson_id = sanitize_text_field( $_GET['filter_lesson_id'] );
 		$selected_quiz_id = sanitize_text_field( $_GET['filter_quiz_id'] );
 		if ( ! empty( $quiz_ids ) ) {
-				// array unique
-				$quiz_ids = array_unique( $quiz_ids );
-				//remove 0 value array
-				if ( ! $selected_lesson_id ) {
-					$quiz_ids = array_diff( $quiz_ids, array( 0 ) );
-				}
+			// array unique
+			$quiz_ids = array_unique( $quiz_ids );
+			//remove 0 value array
+			if ( ! $selected_lesson_id ) {
+				$quiz_ids = array_diff( $quiz_ids, array( 0 ) );
+			}
 
-				//get questions of quiz
-				$q_questionsn = array();
-				$questions_ids = array();
+			//get questions of quiz
+			$q_questionsn = array();
+			$questions_ids = array();
 
-				//set seleted quiz
-				if ( $selected_quiz_id ) {
-					$quiz_ids = array( $selected_quiz_id );
+			//set seleted quiz
+			if ( $selected_quiz_id ) {
+				$quiz_ids = array( $selected_quiz_id );
+			}
+			foreach ( $quiz_ids as $single_q_id ) {
+				$q_questionsn = get_post_meta( $single_q_id, '_llms_questions', true );
+				$questions_ids[] = wp_list_pluck( $q_questionsn, 'id' );
+			}
+			$l_id = 'novalue';
+			if ( is_array( $quiz_ids ) ) {
+			}
+			if ( ! empty( $questions_ids ) ) {
+				if ( is_array( $questions_ids[0] ) ) {
+					$l_id = implode( ',',$questions_ids[0] );
 				}
-				foreach ( $quiz_ids as $single_q_id ) {
-					$q_questionsn = get_post_meta( $single_q_id, '_llms_questions', true );
-					$questions_ids[] = wp_list_pluck( $q_questionsn, 'id' );
-				}
-				$l_id = 'novalue';
-				if ( is_array( $quiz_ids ) ) {
-				}
-				if ( ! empty( $questions_ids ) ) {
-					if ( is_array( $questions_ids[0] ) ) {
-						$l_id = implode( ',',$questions_ids[0] );
-					}
-				}
-				if ( $l_id ) {
+			}
+			if ( $l_id ) {
 
-					//set query var these quizes will show
-					return $questions_ids[0];
-				}
-				if ( $l_id == 0 ) {
+				//set query var these quizes will show
+				return $questions_ids[0];
+			}
+			if ( $l_id == 0 ) {
 
-					//set query var these quizes will show
-					return array( 0 );
-				}
-			} else {
-
-				//if no lesson on course
-				//set to no quiz found
+				//set query var these quizes will show
 				return array( 0 );
+			}
+		} else {
+
+			//if no lesson on course
+			//set to no quiz found
+			return array( 0 );
 			}
 		return array( 0 );
 	}
