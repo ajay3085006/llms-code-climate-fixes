@@ -39,18 +39,15 @@ class LLMS_Admin_Post_Table_Questions {
 	 */
 	public function add_questions_columns( $q_columns ) {
 		//checkbox
-		$q_columns['cb'] = '<input type="checkbox" />';
-		
-		//course
-		$q_columns['course'] = __( 'Course', 'lifterlms' );
-		
-		//title
-		$q_columns['title'] = __( 'Lesson Title', 'lifterlms' );
+		$lessont_obj = new LLMS_Admin_Post_Table_Lessons();
+		$q_columns = $lessont_obj->add_columns();
+		unset($q_columns['prereq']);
+		unset($q_columns['date']);
 		//lesson
 		$q_columns['lesson'] = __( 'lesson', 'lifterlms' );
-		//quize
+		//quiz
 		$q_columns['quiz'] = __( 'quiz', 'lifterlms' );
-		$q_columns['date'] = __( 'Date', 'lifterlms' );
+		$q_columns['date'] = __( 'Date', 'lifterlms' );		
 		return $q_columns;
 	}
 
