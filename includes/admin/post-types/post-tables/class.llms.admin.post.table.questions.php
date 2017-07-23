@@ -238,7 +238,7 @@ class LLMS_Admin_Post_Table_Questions {
 		$type = $_GET['post_type'];
 		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '' ) {
 			$selected_course_id = $_GET['filter_course_id'];
-			$selected_lesson_id = $_GET['filter_lesson_id'];			
+			$selected_lesson_id = $_GET['filter_lesson_id'];
 		} else {
 			$all_less = $this->get_posts( 'lesson' );
 			if ( $selected_lesson_id ) {
@@ -296,29 +296,34 @@ class Llms_Question_Table_Helper {
 			if ( $selected_quiz_id ) {
 				$quiz_ids = array( $selected_quiz_id );
 			}
-			foreach ( $quiz_ids as $single_q_id ) {
-				$q_questionsn = get_post_meta( $single_q_id, '_llms_questions', true );
-				$questions_ids[] = wp_list_pluck( $q_questionsn, 'id' );
-			}
-			$l_id = 'novalue';
-			if ( ! empty( $questions_ids ) ) {
-				if ( is_array( $questions_ids[0] ) ) {
-					$l_id = implode( ',',$questions_ids[0] );
-				}
-			}
-			if ( $l_id ) {
-				//set query var these quizes will show
-				return $questions_ids[0];
-			}
-			if ( $l_id == 0 ) {
-				//set query var these quizes will show
-				return array( 0 );
-			}
+			$inside_parse_data = inside_parse_filter($quiz_ids);
+			return $inside_parse_data;
 		} else {
 			//if no lesson on course
 			//set to no quiz found
 			return array( 0 );
 		}
 		return array( 0 );
+	}
+	//run some logic 
+	public inside_parse_filter($quiz_ids) {
+		foreach ( $quiz_ids as $single_q_id ) {
+			$q_questionsn = get_post_meta( $single_q_id, '_llms_questions', true );
+			$questions_ids[] = wp_list_pluck( $q_questionsn, 'id' );
+		}
+		$l_id = 'novalue';
+		if ( ! empty( $questions_ids ) ) {
+			if ( is_array( $questions_ids[0] ) ) {
+				$l_id = implode( ',',$questions_ids[0] );
+			}
+		}
+		if ( $l_id ) {
+			//set query var these quizes will show
+			return $questions_ids[0];
+		}
+		if ( $l_id == 0 ) {
+			//set query var these quizes will show
+			return array( 0 );
+		}
 	}
 }
