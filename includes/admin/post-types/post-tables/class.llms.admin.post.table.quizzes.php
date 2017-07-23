@@ -66,35 +66,30 @@ class LLMS_Admin_Post_Table_Quizzes {
 
 		$all_less = $this->get_posts( 'lesson' );
 		switch ( $column ) {
-
 			case 'course' :
 				foreach ( $all_less  as $lesson_id ) {
 					$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
 					$quiz_id = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 					if ( $quiz_id == $post_id ) {
 						$edit_link = get_edit_post_link( $parent_id );
-
 						if ( ! empty( $parent_id ) ) {
 							printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $parent_id ) );
 						}
 					}
 				}
 			break;
-
 			case 'lesson' :
 				foreach ( $all_less  as $lesson_id_l ) {
 					$quiz_id = absint( get_post_meta( $lesson_id_l, '_llms_assigned_quiz', true ) );
 					if ( $quiz_id == $post_id ) {
-
 						$edit_link = get_edit_post_link( $lesson_id_l );
-
 						if ( ! empty( $lesson_id_l ) ) {
 							printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $lesson_id_l ) );
 						}
 					}
 				}
 			break;
-		} // End switch().
+		} 
 	}
 	/**
 	 * Add  filters
@@ -106,8 +101,8 @@ class LLMS_Admin_Post_Table_Quizzes {
 
 		//only add filter to post type you want
 		if ( 'llms_quiz' !== $post_type ) { return; }
-	?>
-			<?php $selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):''; ?>
+		$selected_course_id =  sanitize_text_field( $_GET['filter_course_id'] );
+		?>
 			<select name="filter_course_id" id="filter_course_id">
 				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
 				<?php foreach ( $this->get_posts() as $course_id ) { ?>
@@ -209,8 +204,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 	*/
 	public function query_posts_filter( $query ) {
 		global $pagenow;
-		$type = $_GET['post_type'];
-		
+		$type = $_GET['post_type'];		
 		if ( 'llms_quiz' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '' ) {
 			$selected_course_id = sanitize_text_field( $_GET['filter_course_id'] );
 			$selected_lesson_id = sanitize_text_field( $_GET['filter_lesson_id'] );
