@@ -65,8 +65,6 @@ class LLMS_Admin_Post_Table_Quizzes {
 	 */
 	public function manage_columns( $column, $post_id ) {
 
-		$l = new LLMS_Lesson( $post_id );
-
 		switch ( $column ) {
 
 			case 'course' :
