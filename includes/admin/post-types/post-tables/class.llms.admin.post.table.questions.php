@@ -125,37 +125,21 @@ class LLMS_Admin_Post_Table_Questions {
 		//only add filter to post type you want
 		if ( 'llms_question' !== $post_type ) { return; }
 			$selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):'';
-			//get course filter 
+			//get course filter
 			$this->get_course_filter();
 			//get all lessons of course
 			$filter_all_lessons = array();
-			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
-			$all_less = $this->get_posts( 'lesson' );
-		foreach ( $all_less as $lesson_id ) {
-			$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
-			if ( $selected_course_id == $parent_id ) {
-				$filter_all_lessons[] = $lesson_id;
-			}
-		}
-			?>
-			<?php ?>
-			<select name="filter_lesson_id" id="filter_lesson_id">
-				<option value=""><?php _e( 'All Lessons ', 'lifterlms' ); ?></option>
-				<?php foreach ( $filter_all_lessons as $lesson_id ) { ?>
-					<option value="<?php echo $lesson_id; ?>" <?php selected( $lesson_id,$selected_lesson_id ); ?> ><?php echo get_the_title( $lesson_id ); ?></option>
-				<?php } ?>
-			</select>
-			<!-- quiz -->
-			<?php
+			$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';	
+			// lesson filter 
+			$this->get_lesson_filter();
+			//<!-- quiz -->
 			$selected_quiz_id = isset( $_GET['filter_quiz_id'] )? sanitize_text_field( $_GET['filter_quiz_id'] ):'';
 			$quiz_ids = array();
-
 			//when lesson is selected
 			if ( $selected_lesson_id ) {
-
 				//to check if single lesson is set then no need for all lesson
 				$filter_all_lessons = array( $selected_lesson_id );
-			}
+			}			
 			foreach ( $filter_all_lessons as $lesson_id ) {
 				$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
 				if ( $selected_course_id == $parent_id ) {
@@ -181,6 +165,29 @@ class LLMS_Admin_Post_Table_Questions {
 			//date filter
 			$quizze_obj = new LLMS_Admin_Post_Table_Quizzes();
 			$quizze_obj->date_filter( $post_type );
+	}
+	/**
+	 * get lesson filter
+	 */
+	public function get_lesson_filter() {
+		$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
+		$selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):'';
+		$all_less = $this->get_posts( 'lesson' );
+		foreach ( $all_less as $lesson_id ) {
+			$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
+			if ( $selected_course_id == $parent_id ) {
+				$filter_all_lessons[] = $lesson_id;
+			}
+		}
+			?>
+			<?php ?>
+			<select name="filter_lesson_id" id="filter_lesson_id">
+				<option value=""><?php _e( 'All Lessons ', 'lifterlms' ); ?></option>
+				<?php foreach ( $filter_all_lessons as $lesson_id ) { ?>
+					<option value="<?php echo $lesson_id; ?>" <?php selected( $lesson_id,$selected_lesson_id ); ?> ><?php echo get_the_title( $lesson_id ); ?></option>
+				<?php } ?>
+			</select>
+			<?php 
 	}
 	/**
 	 * get course filter
