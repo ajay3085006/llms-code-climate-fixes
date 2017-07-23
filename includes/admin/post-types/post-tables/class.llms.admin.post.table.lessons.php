@@ -38,13 +38,13 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @since    3.2.3
 	 * @version  3.2.3
 	 */
-	public function add_columns( $lessons_columns ) {		
+	public function add_columns( $lessons_columns ) {
 		$lessons_columns['cb'] = '<input type="checkbox" />';
 		$lessons_columns['title'] = __( 'Lesson Title', 'lifterlms' );
 		$lessons_columns['section'] = __( 'Section', 'lifterlms' );
 		$lessons_columns['course'] = __( 'Course', 'lifterlms' );
 		$lessons_columns['prereq'] = __( 'Prerequisite', 'lifterlms' );
-		$lessons_columns['date'] = __( 'Date', 'lifterlms' );			
+		$lessons_columns['date'] = __( 'Date', 'lifterlms' );
 		return $lessons_columns;
 	}
 
