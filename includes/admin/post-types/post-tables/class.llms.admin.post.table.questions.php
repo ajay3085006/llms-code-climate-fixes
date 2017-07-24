@@ -41,12 +41,13 @@ class LLMS_Admin_Post_Table_Questions {
 		//checkbox
 		$lessont_obj = new LLMS_Admin_Post_Table_Lessons();
 		$q_columns = $lessont_obj->add_columns();
+		unset( $q_columns['section'] );
 		unset( $q_columns['prereq'] );
 		unset( $q_columns['date'] );
 		//lesson
-		$q_columns['lesson'] = __( 'lesson', 'lifterlms' );
+		$q_columns['lesson'] = __( 'Lesson', 'lifterlms' );
 		//quiz
-		$q_columns['quiz'] = __( 'quiz', 'lifterlms' );
+		$q_columns['quiz'] = __( 'Quiz', 'lifterlms' );
 		$q_columns['date'] = __( 'Date', 'lifterlms' );
 		return $q_columns;
 	}
@@ -249,20 +250,21 @@ class LLMS_Admin_Post_Table_Questions {
 	 */
 	public function query_posts_filter( $query ) {
 		global $pagenow;
+		
 		$type = $_GET['post_type'];
-		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && isset( $_GET['filter_course_id'] ) && $_GET['filter_course_id'] != '' ) {
-			$selected_course_id = $_GET['filter_course_id'];
-			$selected_lesson_id = $_GET['filter_lesson_id'];
-		} else {
+		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && $_GET['filter_course_id'] != '') {
+		$selected_course_id = isset($_GET['filter_course_id'])? sanitize_text_field($_GET['filter_course_id']):''; 
+		$selected_lesson_id = isset($_GET['filter_lesson_id'])? sanitize_text_field($_GET['filter_lesson_id']):'';
+		$selected_quiz_id = isset($_GET['filter_quiz_id'])? sanitize_text_field($_GET['filter_quiz_id']):'';		
 			$all_less = $this->get_posts( 'lesson' );
 			if ( $selected_lesson_id ) {
-
 				//to check if single lesson is set then no need for all lesson
 				$all_less = array( $selected_lesson_id );
 			}
 			foreach ( $all_less as $lesson_id ) {
 				$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
 				if ( $selected_course_id == $parent_id ) {
+					
 					$quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 				}
 			}
@@ -292,8 +294,9 @@ class Llms_Question_Table_Helper {
 	* Get quliz ids values | Reduce Cyclomatic  complexity of filter
 	*/
 	public function parse_filter( $quiz_ids ) {
-		$selected_lesson_id = sanitize_text_field( $_GET['filter_lesson_id'] );
-		$selected_quiz_id = sanitize_text_field( $_GET['filter_quiz_id'] );
+		$selected_course_id = isset($_GET['filter_course_id'])? sanitize_text_field($_GET['filter_course_id']):''; 
+		$selected_lesson_id = isset($_GET['filter_lesson_id'])? sanitize_text_field($_GET['filter_lesson_id']):'';
+		$selected_quiz_id = isset($_GET['filter_quiz_id'])? sanitize_text_field($_GET['filter_quiz_id']):'';
 		if ( ! empty( $quiz_ids ) ) {
 			// array unique
 			$quiz_ids = array_unique( $quiz_ids );
@@ -306,7 +309,11 @@ class Llms_Question_Table_Helper {
 				$quiz_ids = array( $selected_quiz_id );
 			}
 			$inside_parse_data = $this->inside_parse_filter( $quiz_ids );
-			return $inside_parse_data;
+			if ( ! empty( $quiz_ids ) ) { 
+				return $inside_parse_data;
+			}else{ 
+				return array( 0 );
+			}
 		} else {
 			//if no lesson on course
 			//set to no quiz found
