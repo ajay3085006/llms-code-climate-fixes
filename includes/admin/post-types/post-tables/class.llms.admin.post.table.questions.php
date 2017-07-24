@@ -135,13 +135,13 @@ class LLMS_Admin_Post_Table_Questions {
 		// lesson filter
 		$this->get_lesson_filter();
 		// quiz
-		$selected_quiz_id = isset( $_GET['filter_quiz_id'] )? sanitize_text_field( $_GET['filter_quiz_id'] ):'';	$quiz_ids = array();
+		$selected_quiz_id = isset( $_GET['filter_quiz_id'] )? sanitize_text_field( $_GET['filter_quiz_id'] ):'';
+		$quiz_ids = array();
 		//when lesson is selected
 		if ( $selected_lesson_id ) {
 			//to check if single lesson is set then no need for all lesson
 			$filter_all_lessons = array( $selected_lesson_id );
 		}
-		
 		foreach ( $filter_all_lessons as $lesson_id ) {
 			$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
 			if ( $selected_course_id == $parent_id ) {
