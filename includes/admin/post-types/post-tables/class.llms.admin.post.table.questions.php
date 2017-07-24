@@ -249,11 +249,11 @@ class LLMS_Admin_Post_Table_Questions {
 	 * @Since 3.9.6
 	 */
 	public function query_posts_filter( $query ) {
-		global $pagenow;		
+		global $pagenow;
 		$type = $_GET['post_type'];
 		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && $_GET['filter_course_id'] != '' ) {
 			$selected_course_id = isset( $_GET['filter_course_id'] ) ? sanitize_text_field( $_GET['filter_course_id'] ) : '';
-			$selected_lesson_id = isset( $_GET['filter_lesson_id'] ) ? sanitize_text_field( $_GET['filter_lesson_id'] ) : '';
+			$selected_lesson_id = sanitize_text_field( $_GET['filter_lesson_id'] );
 			$all_less = $this->get_posts( 'lesson' );
 			if ( $selected_lesson_id ) {
 				//to check if single lesson is set then no need for all lesson
@@ -261,7 +261,7 @@ class LLMS_Admin_Post_Table_Questions {
 			}
 			foreach ( $all_less as $lesson_id ) {
 				$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
-				if ( $selected_course_id == $parent_id ) {					
+				if ( $selected_course_id == $parent_id ) {
 					$quiz_ids[] = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
 				}
 			}
