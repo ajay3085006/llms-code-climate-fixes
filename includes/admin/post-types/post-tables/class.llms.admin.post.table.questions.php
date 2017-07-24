@@ -253,9 +253,8 @@ class LLMS_Admin_Post_Table_Questions {
 		
 		$type = $_GET['post_type'];
 		if ( 'llms_question' == $type && is_admin() && $pagenow == 'edit.php' && $_GET['filter_course_id'] != '') {
-		$selected_course_id = isset($_GET['filter_course_id'])? sanitize_text_field($_GET['filter_course_id']):''; 
-		$selected_lesson_id = isset($_GET['filter_lesson_id'])? sanitize_text_field($_GET['filter_lesson_id']):'';
-		$selected_quiz_id = isset($_GET['filter_quiz_id'])? sanitize_text_field($_GET['filter_quiz_id']):'';		
+			$selected_course_id = isset( $_GET['filter_course_id'] ) ? sanitize_text_field( $_GET['filter_course_id'] ) : '';
+			$selected_lesson_id = isset( $_GET['filter_lesson_id'] ) ? sanitize_text_field( $_GET['filter_lesson_id'] ) : '';
 			$all_less = $this->get_posts( 'lesson' );
 			if ( $selected_lesson_id ) {
 				//to check if single lesson is set then no need for all lesson
@@ -294,9 +293,8 @@ class Llms_Question_Table_Helper {
 	* Get quliz ids values | Reduce Cyclomatic  complexity of filter
 	*/
 	public function parse_filter( $quiz_ids ) {
-		$selected_course_id = isset($_GET['filter_course_id'])? sanitize_text_field($_GET['filter_course_id']):''; 
-		$selected_lesson_id = isset($_GET['filter_lesson_id'])? sanitize_text_field($_GET['filter_lesson_id']):'';
-		$selected_quiz_id = isset($_GET['filter_quiz_id'])? sanitize_text_field($_GET['filter_quiz_id']):'';
+		$selected_lesson_id = isset( $_GET['filter_lesson_id'] ) ? sanitize_text_field( $_GET['filter_lesson_id'] ) : '';
+		$selected_quiz_id = isset( $_GET['filter_quiz_id'] ) ? sanitize_text_field( $_GET['filter_quiz_id']  ): '';
 		if ( ! empty( $quiz_ids ) ) {
 			// array unique
 			$quiz_ids = array_unique( $quiz_ids );
@@ -309,9 +307,9 @@ class Llms_Question_Table_Helper {
 				$quiz_ids = array( $selected_quiz_id );
 			}
 			$inside_parse_data = $this->inside_parse_filter( $quiz_ids );
-			if ( ! empty( $quiz_ids ) ) { 
+			if ( ! empty( $quiz_ids ) ) {
 				return $inside_parse_data;
-			}else{ 
+			} else {
 				return array( 0 );
 			}
 		} else {
