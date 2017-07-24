@@ -78,17 +78,8 @@ class LLMS_Admin_Post_Table_Questions {
 				$this->quiz_p_id = $q_id;
 			}
 		}
-		$all_less = $this->get_posts( 'lesson' );		foreach ( $all_less as $lesson_id ) {
-			$quiz_id = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
-			if ( $this->quiz_p_id ) {
-				if ( $quiz_id == $this->quiz_p_id ) {
-					$edit_link = get_edit_post_link( $lesson_id );
-
-					//set lesson id
-					$this->lesson_p_id = $lesson_id;
-				}
-			}
-		}
+		//assign lesson id 
+		$this->assign_lesson_id();
 
 		//set data ends
 		switch ( $column ) {
@@ -113,7 +104,21 @@ class LLMS_Admin_Post_Table_Questions {
 			break;
 		}
 	}
+	//assign lesson id 
+	public function assign_lesson_id() {
+		$all_less = $this->get_posts( 'lesson' );
+		foreach ( $all_less as $lesson_id ) {
+			$quiz_id = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
+			if ( $this->quiz_p_id ) {
+				if ( $quiz_id == $this->quiz_p_id ) {
+					$edit_link = get_edit_post_link( $lesson_id );
 
+					//set lesson id
+					$this->lesson_p_id = $lesson_id;
+				}
+			}
+		}
+	}
 	/**
 	 * Add filters
 	 *
