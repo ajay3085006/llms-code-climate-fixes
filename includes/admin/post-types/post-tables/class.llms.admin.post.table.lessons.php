@@ -7,7 +7,9 @@
  * @version  3.2.3
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; 
+}
 
 class LLMS_Admin_Post_Table_Lessons {
 
@@ -94,7 +96,9 @@ class LLMS_Admin_Post_Table_Lessons {
 	 */
 	public function filters( $post_type ) {
 		//only add filter to post type you want
-		if ( 'lesson' !== $post_type ) { return; }
+		if ( 'lesson' !== $post_type ) {
+			return; 
+		}
 			global $wpdb;
 			/** Grab  courses from  DB */
 			$query = $wpdb->prepare('
@@ -133,6 +137,6 @@ class LLMS_Admin_Post_Table_Lessons {
 			$query->query_vars['meta_key'] = '_llms_parent_course';
 			$query->query_vars['meta_value'] = sanitize_text_field( $_GET['flt_course_id'] );
 		}
-	}	
+	}
 }
 return new LLMS_Admin_Post_Table_Lessons();
