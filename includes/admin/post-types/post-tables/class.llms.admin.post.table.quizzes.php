@@ -7,7 +7,9 @@
  * @version  3.9.6
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class LLMS_Admin_Post_Table_Quizzes {
 
@@ -62,7 +64,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 
 		$all_less = $this->get_posts( 'lesson' );
 		switch ( $column ) {
-			case 'course' :
+			case 'course':
 				foreach ( $all_less  as $lesson_id ) {
 					$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
 					$quiz_id = absint( get_post_meta( $lesson_id, '_llms_assigned_quiz', true ) );
@@ -73,8 +75,8 @@ class LLMS_Admin_Post_Table_Quizzes {
 						}
 					}
 				}
-			break;
-			case 'lesson' :
+				break;
+			case 'lesson':
 				foreach ( $all_less  as $lesson_id_l ) {
 					$quiz_id = absint( get_post_meta( $lesson_id_l, '_llms_assigned_quiz', true ) );
 					if ( $quiz_id == $post_id ) {
@@ -84,7 +86,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 						}
 					}
 				}
-			break;
+				break;
 		}
 	}
 	/**
@@ -96,7 +98,9 @@ class LLMS_Admin_Post_Table_Quizzes {
 	public function filters( $post_type ) {
 
 		//only add filter to post type you want
-		if ( 'llms_quiz' !== $post_type ) { return; }
+		if ( 'llms_quiz' !== $post_type ) {
+			return;
+		}
 		$selected_course_id = sanitize_text_field( $_GET['filter_course_id'] );
 		?>
 			<select name="filter_course_id" id="filter_course_id">
@@ -124,7 +128,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 				}
 			}
 		?>
-			<?php $selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):''; ?>
+			<?php $selected_lesson_id = isset( $_GET['filter_lesson_id'] ) ? sanitize_text_field( $_GET['filter_lesson_id'] ) : ''; ?>
 			<select name="filter_lesson_id" id="filter_lesson_id">
 				<option value=""><?php _e( 'All Lessons ', 'lifterlms' ); ?></option>
 				<?php foreach ( $filter_all_lessons as $lesson_id ) { ?>
@@ -132,7 +136,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 				<?php } ?>
 			</select>
 			<?php
-	}	
+	}
 	/**
 	 * Get posts
 	 *
