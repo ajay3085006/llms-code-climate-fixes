@@ -26,9 +26,6 @@ class LLMS_Admin_Post_Table_Lessons {
 
 		//change query
 		add_filter( 'parse_query', array( $this, 'query_posts_filter' ), 10 );
-
-		//disable default date
-		add_filter( 'months_dropdown_results', array( $this, 'default_date_filter' ), 10 ,2 );
 	}
 
 	/**
@@ -119,44 +116,6 @@ class LLMS_Admin_Post_Table_Lessons {
 				<?php } ?>
 			</select>
 			<?php
-
-		 	//date filter
-			global $wpdb ,$wp_locale;
-			$extra_checks = "AND post_status != 'auto-draft'";
-			$months = $wpdb->get_results( $wpdb->prepare( "
-				SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
-				FROM $wpdb->posts
-				WHERE post_type = %s
-				$extra_checks
-				ORDER BY post_date DESC
-			", $post_type ) );
-			$month_count = count( $months );
-			if ( ! $month_count || ( 1 == $month_count && 0 == $months[0]->month ) ) {
-				 return;
-			}
-			$m_llms = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
-			?>
-					<label for="filter-by-date" class="screen-reader-text"><?php _e( 'Filter by date', 'lifterlms' ); ?></label>
-					<select name="m" id="filter-by-date">
-						<option <?php selected( $m_llms, 0 ); ?> value="0"><?php _e( 'All dates', 'lifterlms' ); ?></option>
-			<?php
-			foreach ( $months as $arc_row ) {
-				if ( 0 == $arc_row->year ) {
-					 continue;
-				}
-				$month = zeroise( $arc_row->month, 2 );
-				$year = $arc_row->year;
-				printf( "<option %s value='%s'>%s</option>\n",
-					selected( $m_llms, $year . $month, false ),
-					esc_attr( $arc_row->year . $month ),
-					sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
-				);
-			}
-			?>
-					</select>
-			<?php
-
-			//date filter ends
 	}
 	/**
 	 * Change query on filter submit
@@ -174,18 +133,6 @@ class LLMS_Admin_Post_Table_Lessons {
 			$query->query_vars['meta_key'] = '_llms_parent_course';
 			$query->query_vars['meta_value'] = sanitize_text_field( $_GET['flt_course_id'] );
 		}
-	}
-	/**
-	 * Hide default date filter  only on lesson post types
-	 *
-	 * @return empty array | months array
-	 * @Since 3.9.6
-	 */
-	public function default_date_filter( $months, $post_type ) {
-		if ( $post_type == 'lesson' ) {
-			return array();
-		}
-		return $months;
-	}
+	}	
 }
 return new LLMS_Admin_Post_Table_Lessons();

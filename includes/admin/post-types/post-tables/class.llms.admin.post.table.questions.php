@@ -25,9 +25,6 @@ class LLMS_Admin_Post_Table_Questions {
 
 		//change query
 		add_action( 'pre_get_posts', array( $this, 'query_posts_filter' ), 10,1 );
-
-		//disable default date
-		add_filter( 'months_dropdown_results', array( $this, 'default_date_filter' ), 10 ,2 );
 	}
 
 	/**
@@ -165,10 +162,7 @@ class LLMS_Admin_Post_Table_Questions {
 				<?php } ?>
 			</select>
 			<?php
-			//date filter
-			$quizze_obj = new LLMS_Admin_Post_Table_Quizzes();
-			$quizze_obj->date_filter( $post_type );
-	}
+}
 	/**
 	 * get lesson filter
 	 */
@@ -269,19 +263,6 @@ class LLMS_Admin_Post_Table_Questions {
 			$parse_data = $helper_class->parse_filter( $quiz_ids );
 			$query->query_vars['post__in'] = $parse_data;
 		}
-	}
-
-	/**
-	 * Hide default date filter  only on llms_quiz post types
-	 *
-	 * @return empty array | months array
-	 * @Since 3.9.6
-	 */
-	public function default_date_filter( $months, $post_type ) {
-		if ( $post_type == 'llms_question' ) {
-			return array();
-		}
-		return $months;
 	}
 }
 return new LLMS_Admin_Post_Table_Questions();
