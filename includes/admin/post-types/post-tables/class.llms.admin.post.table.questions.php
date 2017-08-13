@@ -6,7 +6,9 @@
  * @since    3.9.6
  * @version  3.9.6
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 class LLMS_Admin_Post_Table_Questions {
 	public $quiz_p_id = 0;
 	public $lesson_p_id = 0;
@@ -123,7 +125,9 @@ class LLMS_Admin_Post_Table_Questions {
 	 */
 	public function filters( $post_type ) {
 		//only add filter to post type you want
-		if ( 'llms_question' !== $post_type ) { return; }
+		if ( 'llms_question' !== $post_type ) { 
+			return;
+		}
 		$selected_course_id = sanitize_text_field( $_GET['filter_course_id'] );
 		//get course filter
 		$this->get_course_filter();
@@ -162,7 +166,7 @@ class LLMS_Admin_Post_Table_Questions {
 				<?php } ?>
 			</select>
 			<?php
-}
+	}
 	/**
 	 * get lesson filter
 	 */
