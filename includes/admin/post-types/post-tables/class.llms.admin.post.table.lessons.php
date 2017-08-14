@@ -90,7 +90,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				break;
 		}
 	}
-
+	//to resolve complexity 
 	public function get_cID(  ) {
 		
 		$selected_course_id = isset( $_GET['flt_course_id'] ) ? sanitize_text_field( $_GET['flt_course_id'] ) : '';
