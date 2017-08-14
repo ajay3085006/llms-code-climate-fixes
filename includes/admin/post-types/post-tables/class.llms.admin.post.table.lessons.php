@@ -91,6 +91,11 @@ class LLMS_Admin_Post_Table_Lessons {
 		}
 	}
 
+	public function get_cID(  ) {
+		
+		$selected_course_id = isset( $_GET['flt_course_id'] ) ? sanitize_text_field( $_GET['flt_course_id'] ) : '';
+		return $selected_course_id;
+	}
 	/**
 	 * Add  filters
 	 *
@@ -114,7 +119,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				'course'
 			);
 			$courses_array = $wpdb->get_col( $query );
-			$selected_course_id = isset( $_GET['flt_course_id'] ) ? sanitize_text_field( $_GET['flt_course_id'] ) : '';
+			$selected_course_id =  $this->get_cID();
 			?>
 			<select name="flt_course_id">
 				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
@@ -124,7 +129,7 @@ class LLMS_Admin_Post_Table_Lessons {
 			</select>
 			<?php
 
-		 	//date filter
+			//date filter
 			global $wpdb ,$wp_locale;
 			$extra_checks = "AND post_status != 'auto-draft'";
 			$months = $wpdb->get_results( $wpdb->prepare( "
