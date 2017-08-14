@@ -7,7 +7,7 @@
  * @version  3.9.6
  */
 
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -132,7 +132,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 				}
 			}
 		?>
-			<?php $selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):''; ?>
+			<?php $selected_lesson_id = isset( $_GET['filter_lesson_id'] ) ? sanitize_text_field( $_GET['filter_lesson_id'] ) : ''; ?>
 			<select name="filter_lesson_id" id="filter_lesson_id">
 				<option value=""><?php _e( 'All Lessons ', 'lifterlms' ); ?></option>
 				<?php foreach ( $filter_all_lessons as $lesson_id ) { ?>
@@ -174,10 +174,10 @@ class LLMS_Admin_Post_Table_Quizzes {
 					$month = zeroise( $arc_row->month, 2 );
 					$year = $arc_row->year;
 					printf( "<option %s value='%s'>%s</option>\n",
-					    selected( $m_llms, $year . $month, false ),
-					    esc_attr( $arc_row->year . $month ),
-					    sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
-				    );
+						selected( $m_llms, $year . $month, false ),
+						esc_attr( $arc_row->year . $month ),
+						sprintf( '%1$s %2$d', $wp_locale->get_month( $month ), $year )
+					);
 			}
 			?>
 					</select>
