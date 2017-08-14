@@ -140,7 +140,7 @@ class LLMS_Admin_Post_Table_Questions {
 		// lesson filter
 		$this->get_lesson_filter();
 		// quiz
-		$selected_quiz_id = isset( $_GET['filter_quiz_id'] )? sanitize_text_field( $_GET['filter_quiz_id'] ):'';
+		$selected_quiz_id = isset( $_GET['filter_quiz_id'] ) ? sanitize_text_field( $_GET['filter_quiz_id'] ) : '';
 		$quiz_ids = array();
 		//when lesson is selected
 		if ( $selected_lesson_id ) {
@@ -177,8 +177,8 @@ class LLMS_Admin_Post_Table_Questions {
 	 * get lesson filter
 	 */
 	public function get_lesson_filter() {
-		$selected_lesson_id = isset( $_GET['filter_lesson_id'] )? sanitize_text_field( $_GET['filter_lesson_id'] ):'';
-		$selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):'';
+		$selected_lesson_id = isset( $_GET['filter_lesson_id'] ) ? sanitize_text_field( $_GET['filter_lesson_id'] ) : '';
+		$selected_course_id = isset( $_GET['filter_course_id'] ) ? sanitize_text_field( $_GET['filter_course_id'] ) : '';
 		$all_less = $this->get_posts( 'lesson' );
 		foreach ( $all_less as $lesson_id ) {
 			$parent_id = absint( get_post_meta( $lesson_id, '_llms_parent_course', true ) );
@@ -187,7 +187,6 @@ class LLMS_Admin_Post_Table_Questions {
 			}
 		}
 			?>
-			<?php ?>
 			<select name="filter_lesson_id" id="filter_lesson_id">
 				<option value=""><?php _e( 'All Lessons ', 'lifterlms' ); ?></option>
 				<?php foreach ( $filter_all_lessons as $lesson_id ) { ?>
@@ -200,10 +199,11 @@ class LLMS_Admin_Post_Table_Questions {
 	 * get course filter
 	 */
 	public function get_course_filter() {
-			$selected_course_id = isset( $_GET['filter_course_id'] )? sanitize_text_field( $_GET['filter_course_id'] ):''; ?>
+			$selected_course_id = isset( $_GET['filter_course_id'] ) ? sanitize_text_field( $_GET['filter_course_id'] ) : '';
+			?>
 			<select name="filter_course_id" id="filter_course_id">
 				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
-				<?php foreach ( $this->get_posts() as $course_id ) {  ?>
+				<?php foreach ( $this->get_posts() as $course_id ) { ?>
 					<option value="<?php echo $course_id; ?>" <?php selected( $course_id,$selected_course_id ); ?> ><?php echo get_the_title( $course_id ); ?></option>
 				<?php } ?>
 			</select>
