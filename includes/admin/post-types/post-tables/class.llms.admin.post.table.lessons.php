@@ -7,7 +7,9 @@
  * @version  3.2.3
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class LLMS_Admin_Post_Table_Lessons {
 
@@ -59,21 +61,21 @@ class LLMS_Admin_Post_Table_Lessons {
 	public function manage_columns( $column, $post_id ) {
 		$crnt_l = new LLMS_Lesson( $post_id );
 		switch ( $column ) {
-			case 'course' :
+			case 'course':
 				$course = $crnt_l->get_parent_course();
 				$edit_link = get_edit_post_link( $course );
 				if ( ! empty( $course ) ) {
 					printf( '<a href="%1$s">%2$s</a>', $edit_link , get_the_title( $course ) );
 				}
-			break;
-			case 'section' :
+				break;
+			case 'section':
 				$section = $crnt_l->get_parent_section();
 				$edit_link = get_edit_post_link( $section );
 				if ( ! empty( $section ) ) {
 					printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $section ) );
 				}
-			break;
-			case 'prereq' :
+				break;
+			case 'prereq':
 				if ( $crnt_l->has_prerequisite() ) {
 					$prereq = $crnt_l->get( 'prerequisite' );
 					$edit_link = get_edit_post_link( $prereq );
@@ -85,7 +87,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				} else {
 					echo '&ndash;';
 				}
-			break;
+				break;
 		}
 	}
 
@@ -97,7 +99,9 @@ class LLMS_Admin_Post_Table_Lessons {
 	 */
 	public function filters( $post_type ) {
 		//only add filter to post type you want
-		if ( 'lesson' !== $post_type ) { return; }
+		if ( 'lesson' !== $post_type ) {
+			return;
+		}
 			global $wpdb;
 			/** Grab  courses from  DB */
 			$query = $wpdb->prepare('
