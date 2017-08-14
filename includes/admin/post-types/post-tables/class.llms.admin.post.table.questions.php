@@ -125,6 +125,11 @@ class LLMS_Admin_Post_Table_Questions {
 		$selected_course_id = isset( $_GET['filter_course_id'] ) ? sanitize_text_field( $_GET['filter_course_id'] ) : '';
 		return $selected_course_id;
 	}
+	//to resolve complexity
+	public function get_lesson_id() {
+		$selected_lesson_id = isset( $_GET['filter_lesson_id'] ) ? sanitize_text_field( $_GET['filter_lesson_id'] ) : '';
+		return $selected_lesson_id;
+	}
 	/**
 	 * Add filters
 	 *
@@ -136,12 +141,12 @@ class LLMS_Admin_Post_Table_Questions {
 		if ( 'llms_question' !== $post_type ) {
 			return;
 		}
-		$selected_course_id = $selected_course_id = $this->get_course_id();
+		$selected_course_id = $this->get_course_id();
 		//get course filter
 		$this->get_course_filter();
 		//get all lessons of course
 		$filter_all_lessons = array();
-		$selected_lesson_id = isset( $_GET['filter_lesson_id'] ) ? sanitize_text_field( $_GET['filter_lesson_id'] ) : '';
+		$selected_lesson_id = $this->get_lesson_id();
 		// lesson filter
 		$this->get_lesson_filter();
 		// quiz
@@ -262,7 +267,7 @@ class LLMS_Admin_Post_Table_Questions {
 		$type = $_GET['post_type'];
 		if ( 'llms_question' == $type && isset( $_GET['filter_course_id'] ) && is_admin() && $pagenow == 'edit.php' && $_GET['filter_course_id'] != '' ) {
 			$selected_course_id = $this->get_course_id();
-			$selected_lesson_id = isset( $_GET['filter_lesson_id'] ) ? sanitize_text_field( $_GET['filter_lesson_id'] ) : '';
+			$selected_lesson_id = $this->get_lesson_id();
 			$all_less = $this->get_posts( 'lesson' );
 			if ( $selected_lesson_id ) {
 				//to check if single lesson is set then no need for all lesson
