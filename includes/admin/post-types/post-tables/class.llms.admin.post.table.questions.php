@@ -6,7 +6,9 @@
  * @since    3.9.6
  * @version  3.9.6
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 class LLMS_Admin_Post_Table_Questions {
 	public $quiz_p_id = 0;
 	public $lesson_p_id = 0;
@@ -84,25 +86,25 @@ class LLMS_Admin_Post_Table_Questions {
 
 		//set data ends
 		switch ( $column ) {
-			case 'course' :
+			case 'course':
 				$parent_id = absint( get_post_meta( $this->lesson_p_id, '_llms_parent_course', true ) );
 				$edit_link = get_edit_post_link( $parent_id );
 				if ( ! empty( $parent_id ) ) {
 					printf( '<a href="%1$s">%2$s</a>' , $edit_link, get_the_title( $parent_id ) );
 				}
-			break;
-			case 'lesson' :
+				break;
+			case 'lesson':
 				$edit_link = get_edit_post_link( $this->lesson_p_id );
 				if ( ! empty( $this->lesson_p_id ) ) {
 					printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->lesson_p_id ) );
 				}
-			break;
-			case 'quiz' :
+				break;
+			case 'quiz':
 				$edit_link = get_edit_post_link( $this->quiz_p_id );
 				if ( ! empty( $this->quiz_p_id ) ) {
 					printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $this->quiz_p_id ) );
 				}
-			break;
+				break;
 		}
 	}
 	//assign lesson id
@@ -126,7 +128,9 @@ class LLMS_Admin_Post_Table_Questions {
 	 */
 	public function filters( $post_type ) {
 		//only add filter to post type you want
-		if ( 'llms_question' !== $post_type ) { return; }
+		if ( 'llms_question' !== $post_type ) {
+			return;
+		}
 		$selected_course_id = isset( $_GET['filter_course_id'] ) ? sanitize_text_field( $_GET['filter_course_id'] ) : '';
 		//get course filter
 		$this->get_course_filter();
