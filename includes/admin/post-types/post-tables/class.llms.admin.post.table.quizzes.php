@@ -110,7 +110,7 @@ class LLMS_Admin_Post_Table_Quizzes {
 		if ( 'llms_quiz' !== $post_type ) {
 			return;
 		}
-		$selected_course_id = $this->get_course_id();;
+		$selected_course_id = $this->get_course_id();
 		?>
 			<select name="filter_course_id" id="filter_course_id">
 				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
