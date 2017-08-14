@@ -91,8 +91,7 @@ class LLMS_Admin_Post_Table_Lessons {
 		}
 	}
 	//to resolve complexity
-	public function get_cID(  ) {
-		
+	public function get_course_id() {
 		$selected_course_id = isset( $_GET['flt_course_id'] ) ? sanitize_text_field( $_GET['flt_course_id'] ) : '';
 		return $selected_course_id;
 	}
@@ -119,7 +118,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				'course'
 			);
 			$courses_array = $wpdb->get_col( $query );
-			$selected_course_id =  $this->get_cID();
+			$selected_course_id = $this->get_course_id();
 			?>
 			<select name="flt_course_id">
 				<option value=""><?php _e( 'All Courses ', 'lifterlms' ); ?></option>
